@@ -89,6 +89,7 @@ function LoginSection({ onLogin }) {
 }
 
 function History() {
+  console.log('history');
   const { lastJsonMessage } = useWebSocket(WS_URL, {
     share: true,
     filter: isUserEvent
