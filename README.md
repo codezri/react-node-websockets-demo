@@ -27,7 +27,7 @@ Credit goes to the original author [Avanthika Meenakshi](https://blog.logrocket.
 
 This project has the following changes compared to the original project.
 
-- Upgraded the React version to v18
+- Upgraded the React version to 18
 - Refactored the client app using multiple functional components
 - Refactored the server app using multiple functions and handlers
 - Used better dependencies and implementations (i.e., `ws` instead of `websocket`, `uuid` instead of `Math.random`, etc.)
