@@ -1,4 +1,4 @@
-const { WebSocketServer } = require('ws');
+const { WebSocket, WebSocketServer } = require('ws');
 const http = require('http');
 const uuidv4 = require('uuid').v4;
 
@@ -29,7 +29,10 @@ function broadcastMessage(json) {
   // We are sending the current data to all connected clients
   const data = JSON.stringify(json);
   for(let userId in clients) {
-    clients[userId].send(data);
+    let client = clients[userId];
+    if(client.readyState === WebSocket.OPEN) {
+      client.send(data);
+    }
   };
 }
 
@@ -62,7 +65,7 @@ function handleDisconnect(userId) {
 wsServer.on('connection', function(connection) {
   // Generate a unique code for every user
   const userId = uuidv4();
-  console.log(`Recieved a new connection from ${connection.origin}.`);
+  console.log('Recieved a new connection');
 
   // Store the new connection and handle messages
   clients[userId] = connection;

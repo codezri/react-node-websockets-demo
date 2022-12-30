@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Navbar,
   NavbarBrand,
   UncontrolledTooltip
 } from 'reactstrap';
-import useWebSocket from 'react-use-websocket';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
 import { DefaultEditor } from 'react-simple-wysiwyg';
 import Avatar from 'react-avatar';
 
@@ -23,14 +23,25 @@ function isDocumentEvent(message) {
 }
 
 function App() {
-  const [isLogin, setIsLogin] = useState(false);
-  useWebSocket(WS_URL, {
+  const [username, setUsername] = useState('');
+  const { sendJsonMessage, readyState } = useWebSocket(WS_URL, {
     onOpen: () => {
       console.log('WebSocket connection established.');
     },
     share: true,
-    filter: () => false
+    filter: () => false,
+    retryOnError: true,
+    shouldReconnect: () => true
   });
+
+  useEffect(() => {
+    if(username && readyState === ReadyState.OPEN) {
+      sendJsonMessage({
+        username,
+        type: 'userevent'
+      });
+    }
+  }, [username, sendJsonMessage, readyState]);
 
   return (
     <>
@@ -38,7 +49,8 @@ function App() {
         <NavbarBrand href="/">Real-time document editor</NavbarBrand>
       </Navbar>
       <div className="container-fluid">
-        {isLogin ? <EditorSection/> : <LoginSection onLogin={() => { setIsLogin(true) }}/> }
+        {username ? <EditorSection/>
+            : <LoginSection onLogin={setUsername}/> }
       </div>
     </>
   );
@@ -46,16 +58,15 @@ function App() {
 
 function LoginSection({ onLogin }) {
   const [username, setUsername] = useState('');
-  const { sendJsonMessage } = useWebSocket(WS_URL, {share: true});
+  useWebSocket(WS_URL, {
+    share: true,
+    filter: () => false
+  });
   function logInUser() {
     if(!username.trim()) {
       return;
     }
-    onLogin && onLogin();
-    sendJsonMessage({
-      username,
-      type: 'userevent'
-    });
+    onLogin && onLogin(username);
   }
 
   return (
