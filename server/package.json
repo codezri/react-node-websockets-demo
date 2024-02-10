@@ -10,7 +10,7 @@
   "author": "Avanthika",
   "license": "ISC",
   "dependencies": {
-    "uuid": "^9.0.0",
-    "ws": "^8.11.0"
+    "uuid": "^9.0.1",
+    "ws": "^8.16.0"
   }
 }

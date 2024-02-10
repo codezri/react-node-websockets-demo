@@ -7,9 +7,9 @@
     "react-avatar": "^5.0.3",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "react-simple-wysiwyg": "^2.1.4",
-    "react-use-websocket": "^4.2.0",
-    "reactstrap": "^9.1.5"
+    "react-simple-wysiwyg": "^3.0.2",
+    "react-use-websocket": "^4.5.0",
+    "reactstrap": "^9.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
