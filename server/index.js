@@ -65,7 +65,7 @@ function handleDisconnect(userId) {
 wsServer.on('connection', function(connection) {
   // Generate a unique code for every user
   const userId = uuidv4();
-  console.log('Recieved a new connection');
+  console.log('Received a new connection');
 
   // Store the new connection and handle messages
   clients[userId] = connection;
